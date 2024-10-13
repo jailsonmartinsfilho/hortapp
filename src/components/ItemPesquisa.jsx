@@ -11,28 +11,34 @@ export default function ItemPesquisa({ nome }) {
   return (
     <View style={styles.itemPesquisa}>
       <Image source={imagensPlantas[nome.toLowerCase()]} style={styles.imagem} />
-      <Text style={styles.texto}>{nome}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   itemPesquisa: {
-    flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 15,
-    height: 70,
-    paddingHorizontal: 15,
-    elevation: 2,
-    marginBottom: 10,
+    justifyContent: 'center',
+    borderWidth: 10,
+    borderColor: 'white',
+    backgroundColor: '#DCDEDD',
+    borderRadius: 10,
+    height: 80,
+    width: 80, 
+    borderColor: 'transparent', // Borda transparente para simular o brilho
+    borderLeftColor: 'white',   // Luz no canto superior esquerdo
+    borderTopColor: 'white',    // Luz no topo
+        // Simular sombra no canto inferior direito
+    shadowColor: '#000',
+    shadowOffset: { width: 5, height: 5 }, // Deslocamento da sombra
+    shadowOpacity: 0.5, // Intensidade da sombra
+    shadowRadius: 6,
+    elevation: 8, // Sombras no Android
   },
   imagem: {
-    height: 25,
-    width: 25,
+    height: 45,
+    width: 45 ,
     resizeMode: 'contain',
-    marginLeft: 10,
-    borderWidth: 1,
   },
   texto: {
     fontSize: 20,

@@ -31,7 +31,6 @@ export default function Garden() {
                 <View style={styles.container}>
                     <Text>Garden</Text>
                 </View>
-
             </ScrollView>
         </SafeAreaView>
     );
