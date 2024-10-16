@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, ScrollView, SafeAreaView, Text, Image, View, TouchableOpacity } from 'react-native';
 import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
 
-
-export default function DetalhePlanta({ route }) {
-    const navigation = useNavigation(); 
-
+export default function CultivoAtivo({ route }) {
     const { planta } = route.params;
     const [detalhesPlanta, setDetalhesPlanta] = useState([]);
 
@@ -15,10 +11,10 @@ export default function DetalhePlanta({ route }) {
         couve: require('@/assets/images/couve.png'),
         'couve-flor': require('@/assets/images/couveflor.png'),
         tomate: require('@/assets/images/tomate.png'),
-      };
+    };
 
     useEffect(() => {
-        axios.post('http://192.168.0.108:8080/buscarDetalhesPlanta', { planta: planta.nome })
+        axios.post('http://192.168.0.101:8080/buscarDetalhesPlanta', { planta: planta.nome })
             .then((response) => {
                 setDetalhesPlanta(response.data[0]);
             })
@@ -32,18 +28,13 @@ export default function DetalhePlanta({ route }) {
         );
     }
 
-    const handleComecarCultivo = (planta) => {
-        axios.post('http://192.168.0.108:8080/inserirNovoCultivo', { planta: planta.nome })
-        .then((response) => {
-            // setDetalhesPlanta(response.data[0]);
-            navigation.navigate('CultivoAtivo', { planta });
-        }) 
-    };
-
     return (
-
         <SafeAreaView style={styles.container}>
                 <ScrollView style={styles.ScrollView}>
+                <View style={styles.containerNome}> 
+                    <Text style={styles.nome}>{detalhesPlanta.nome}</Text>
+                </View>
+
                 <View style={styles.containerNome}> 
                     <Text style={styles.nome}>{detalhesPlanta.nome}</Text>
                 </View>
@@ -53,30 +44,6 @@ export default function DetalhePlanta({ route }) {
                         <Image source={imagensPlantas[(planta.nome).toLowerCase()]} style={styles.imagem}/>
                     </View>
                 </View>
-
-                <View style={styles.infosecaocultivo}>
-                    <Text style={styles.tituloinfo}>Tempo de Cultivo</Text>
-                    <Text style={styles.info}>{detalhesPlanta.tempo_cultivo}</Text>
-                </View>
-                
-                <View style={styles.infosecaocultivo}>
-                    <Text style={styles.tituloinfo}>Modo de cultivo</Text>
-                    <Text style={styles.info}>{detalhesPlanta.modo_cultivo}</Text>
-                </View>
-
-                <View style={styles.infosecaocultivo}>
-                    <Text style={styles.tituloinfo}>Clima ideal</Text>
-                    <Text style={styles.info}>{detalhesPlanta.clima_ideal}</Text>
-                </View>
-
-                <View style={styles.infosecaocultivo}>
-                    <Text style={styles.tituloinfo}>Tipo de solo</Text>
-                    <Text style={styles.info}>{detalhesPlanta.tipo_solo}</Text>
-                </View>
-
-                <TouchableOpacity style={styles.botaoComecarPlantacao} onPress={() => handleComecarCultivo(planta)}>
-                    <Text style={styles.textoComecarPlantacao}>Começar plantação</Text>
-                </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
     );

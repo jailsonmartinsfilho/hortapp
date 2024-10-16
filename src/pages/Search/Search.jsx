@@ -14,11 +14,16 @@ export default function Search() {
     const [plantasFiltradas, setPlantasFiltradas] = useState([]);
 
     useEffect(() => {
-        axios.post('http://192.168.0.104:8080/buscarTodasPlantas')
+        axios.post('http://192.168.0.108:8080/buscarTodasPlantas')
             .then((response) => {
                 setTodasPlantas(response.data);
                 setPlantasFiltradas(response.data);
             })
+            .catch((error) => {
+                console.log('Erro na requisição:', error);
+                // Ou, se quiser ver o erro completo:
+                console.log('Detalhes do erro:', error.response ? error.response.data : error.message);
+            });
     }, []);
 
     const handlePesquisa = (textoPesquisaPassado) => {
