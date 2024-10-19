@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, ScrollView, SafeAreaView, Text, Image, View, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
-
+import { URL } from '@env';
 
 export default function DetalhePlanta({ route }) {
     const navigation = useNavigation(); 
@@ -18,7 +18,7 @@ export default function DetalhePlanta({ route }) {
       };
 
     useEffect(() => {
-        axios.post('http://192.168.0.108:8080/buscarDetalhesPlanta', { planta: planta.nome })
+        axios.post(`http://${URL}:8080/buscarDetalhesPlanta`, { planta: planta.nome })
             .then((response) => {
                 setDetalhesPlanta(response.data[0]);
             })
@@ -33,7 +33,7 @@ export default function DetalhePlanta({ route }) {
     }
 
     const handleComecarCultivo = (planta) => {
-        axios.post('http://192.168.0.108:8080/inserirNovoCultivo', { planta: planta.nome })
+        axios.post(`http://${URL}:8080/inserirNovoCultivo`, { planta: planta.nome })
         .then((response) => {
             // setDetalhesPlanta(response.data[0]);
             navigation.navigate('CultivoAtivo', { planta });

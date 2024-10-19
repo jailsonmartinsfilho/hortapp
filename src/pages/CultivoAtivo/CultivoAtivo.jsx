@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, ScrollView, SafeAreaView, Text, Image, View, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import { URL } from '@env';
 
 export default function CultivoAtivo({ route }) {
     const { planta } = route.params;
@@ -14,7 +15,7 @@ export default function CultivoAtivo({ route }) {
     };
 
     useEffect(() => {
-        axios.post('http://192.168.0.101:8080/buscarDetalhesPlanta', { planta: planta.nome })
+        axios.post(`http://${URL}:8080/buscarDetalhesPlanta`, { planta: planta.nome })
             .then((response) => {
                 setDetalhesPlanta(response.data[0]);
             })
@@ -31,10 +32,6 @@ export default function CultivoAtivo({ route }) {
     return (
         <SafeAreaView style={styles.container}>
                 <ScrollView style={styles.ScrollView}>
-                <View style={styles.containerNome}> 
-                    <Text style={styles.nome}>{detalhesPlanta.nome}</Text>
-                </View>
-
                 <View style={styles.containerNome}> 
                     <Text style={styles.nome}>{detalhesPlanta.nome}</Text>
                 </View>

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import ItemPesquisa from '../../components/ItemPesquisa';
 import { Ionicons } from '@expo/vector-icons';
-
+import { URL } from '@env';
 
 export default function Search() {
     const navigation = useNavigation(); 
@@ -14,7 +14,7 @@ export default function Search() {
     const [plantasFiltradas, setPlantasFiltradas] = useState([]);
 
     useEffect(() => {
-        axios.post('http://192.168.0.108:8080/buscarTodasPlantas')
+        axios.post(`http://${URL}:8080/buscarTodasPlantas`)
             .then((response) => {
                 setTodasPlantas(response.data);
                 setPlantasFiltradas(response.data);

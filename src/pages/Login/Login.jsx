@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { CommonActions } from '@react-navigation/native';
+import { URL } from '@env';
 
 export default function Login({ navigation }) {
     const [nome, setNome] = useState('');
