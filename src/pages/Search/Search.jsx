@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { URL } from '@env';
 
 export default function Search() {
-    const navigation = useNavigation(); 
+    const navigation = useNavigation();
 
     const [textoPesquisa, setTextoPesquisa] = useState('');
     const [todasPlantas, setTodasPlantas] = useState([]);
@@ -16,13 +16,12 @@ export default function Search() {
     useEffect(() => {
         axios.post(`http://${URL}:8080/buscarTodasPlantas`)
             .then((response) => {
+                console.log(response.data)
                 setTodasPlantas(response.data);
                 setPlantasFiltradas(response.data);
             })
             .catch((error) => {
                 console.log('Erro na requisição:', error);
-                // Ou, se quiser ver o erro completo:
-                console.log('Detalhes do erro:', error.response ? error.response.data : error.message);
             });
     }, []);
 
@@ -31,7 +30,7 @@ export default function Search() {
         const plantasFiltradas = todasPlantas.filter((planta) =>
             planta.nome.toLowerCase().startsWith(textoPesquisaPassado.toLowerCase())
         );
-        setPlantasFiltradas(plantasFiltradas); 
+        setPlantasFiltradas(plantasFiltradas);
     };
 
     const handleSelectPlanta = (planta) => {
@@ -41,21 +40,21 @@ export default function Search() {
     return (
         <SafeAreaView style={styles.SafeAreaView}>
             <View style={styles.lupaSearchBar}>
-                <TextInput style={styles.searchBar} placeholder="Qual será sua nova plantação?" value={textoPesquisa} onChangeText={handlePesquisa}/>
+                <TextInput style={styles.searchBar} placeholder="Qual será sua nova plantação?" value={textoPesquisa} onChangeText={handlePesquisa} />
                 <View style={styles.containerLupa}>
-                    <Ionicons name='search-outline' size={25} color='white'/>    
-                </View> 
+                    <Ionicons name='search-outline' size={25} color='white' />
+                </View>
             </View>
-                
+
             <ScrollView style={styles.ScrollView} contentContainerStyle={styles.contentContainer}>
-  <View style={styles.gridContainer}>
-    {plantasFiltradas.map((planta, index) => (
-      <TouchableOpacity key={index} onPress={() => handleSelectPlanta(planta)} style={styles.gridItem}>
-        <ItemPesquisa nome={planta.nome} />
-      </TouchableOpacity>
-    ))}
-  </View>
-</ScrollView>
+                <View style={styles.gridContainer}>
+                    {plantasFiltradas.map((planta, index) => (
+                        <TouchableOpacity key={index} onPress={() => handleSelectPlanta(planta)} style={styles.gridItem}>
+                            <ItemPesquisa nome={planta.nome} />
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -69,14 +68,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#D4D4D4',
         paddingBottom: 70,
     },
-    containerLupa:{
+    containerLupa: {
         backgroundColor: '#939793',
         width: '100%',
         height: '100%',
         paddingTop: 12,
         paddingLeft: 17,
     },
-    lupaSearchBar:{
+    lupaSearchBar: {
         backgroundColor: '#ECECEC',
         flexDirection: 'row',
         alignItems: 'center',
@@ -90,7 +89,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 6,
         elevation: 8,
-        // Simulação de sombra interna com bordas e cor de fundo
         overflow: 'hidden',
         position: 'relative',
     },
@@ -103,19 +101,19 @@ const styles = StyleSheet.create({
     },
     ScrollView: {
         flex: 1,
-      },
-      contentContainer: {
+    },
+    contentContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-      },
-      gridContainer: {
+    },
+    gridContainer: {
         marginTop: 20,
         paddingLeft: 20,
         flexDirection: 'row',
         flexWrap: 'wrap',
-      },
-      gridItem: {
-        width: '33%', 
+    },
+    gridItem: {
+        width: '33%',
         marginBottom: 20,
-      },
+    },
 });

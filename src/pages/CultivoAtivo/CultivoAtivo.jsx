@@ -1,27 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, SafeAreaView, Text, Image, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, SafeAreaView, Text, View, TouchableOpacity, Image} from 'react-native';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 import { URL } from '@env';
+import { useUser } from '../../context/UserContext'; 
 
-export default function CultivoAtivo({ route }) {
+export default function DetalheCultivo({ route }) {
     const { planta } = route.params;
-    const [detalhesPlanta, setDetalhesPlanta] = useState([]);
+    const { user } = useUser(); 
+    const navigation = useNavigation(); 
 
+    const { cultivo } = route.params;
+    const [detalhesCultivo, setDetalhesCultivo] = useState(null);
+
+    
     const imagensPlantas = {
         batata: require('@/assets/images/batata.png'),
         couve: require('@/assets/images/couve.png'),
         'couve-flor': require('@/assets/images/couveflor.png'),
         tomate: require('@/assets/images/tomate.png'),
-    };
+      };
 
     useEffect(() => {
-        axios.post(`http://${URL}:8080/buscarDetalhesPlanta`, { planta: planta.nome })
+        axios.post(`http://${URL}:8080/buscarDetalhesCultivo`, { planta: planta.id_cultivo })
             .then((response) => {
-                setDetalhesPlanta(response.data[0]);
+                console.log(response.data)
+                setDetalhesCultivo(response.data[0]);
             })
     }, [planta]);
 
-    if (!detalhesPlanta) {
+    if (!detalhesCultivo) {
         return (
             <View style={styles.container}>
                 <Text>Carregando...</Text>
@@ -31,16 +39,35 @@ export default function CultivoAtivo({ route }) {
 
     return (
         <SafeAreaView style={styles.container}>
-                <ScrollView style={styles.ScrollView}>
+            <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
                 <View style={styles.containerNome}> 
-                    <Text style={styles.nome}>{detalhesPlanta.nome}</Text>
+                    <Text style={styles.nome}>{detalhesCultivo.nome_planta}</Text>
                 </View>
 
                 <View style={styles.containerDoContainerImagem}>
                     <View style={styles.containerImagem}> 
-                        <Image source={imagensPlantas[(planta.nome).toLowerCase()]} style={styles.imagem}/>
+                        <Image source={imagensPlantas[(planta.nome_planta).toLowerCase()]} style={styles.imagem}/>
                     </View>
                 </View>
+
+                <View style={styles.infosecaocultivo}>
+                    <Text style={styles.tituloinfo}>Data de Início</Text>
+                    <Text style={styles.info}>{new Date(detalhesCultivo.data_inicio).toLocaleDateString()}</Text>
+                </View>
+
+                <View style={styles.infosecaocultivo}>
+                    <Text style={styles.tituloinfo}>Data Estimada de Colheita</Text>
+                    <Text style={styles.info}>{new Date(detalhesCultivo.data_estimativa_colheita).toLocaleDateString()}</Text>
+                </View>
+
+                <View style={styles.infosecaocultivo}>
+                    <Text style={styles.tituloinfo}>Progresso do Cultivo</Text>
+                    <Text style={styles.info}>{detalhesCultivo.progresso_cultivo}%</Text>
+                </View>
+
+                <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.goBack()}>
+                    <Text style={styles.textoVoltar}>Voltar</Text>
+                </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
     );
@@ -49,34 +76,34 @@ export default function CultivoAtivo({ route }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingLeft: 16,
-        paddingRight: 16,
+        padding: 16,
         backgroundColor: '#D4D4D4',
         paddingTop: 25,
+        paddingBottom: 70,
     },
     nome: {
         fontSize: 50,
         marginBottom: 10,
         fontFamily: 'FibraOneBold'
     },
-    botaoComecarPlantacao: {
-        backgroundColor: 'green',
-        padding: 15,
-        borderRadius: 20,
-        marginTop: 15,
-        alignItems: 'center',
+    botaoVoltar: {
+        backgroundColor: '#5cad39',
+        borderRadius: 8,
         justifyContent: 'center',
-        marginBottom: 100
+        alignItems: 'center',
+        marginTop: 20,
+        paddingVertical: 15,
+        width: '80%',
     },
-    textoComecarPlantacao: {
-        color: 'white',
-        fontSize: 24
+    textoVoltar: {
+        color: '#fff',
+        fontSize: 20,
+        fontFamily: 'FibraOneBold',
     },
     tituloinfo: {
         fontSize: 29,
         marginBottom: 5,
         fontFamily: 'FibraOneBold'
-
     },
     info: {
         fontSize: 20,
@@ -94,31 +121,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 20,
         paddingVertical: 18,
-        backgroundColor: '#E4E7E4'
+        paddingHorizontal: 20,
+        backgroundColor: '#E4E7E4',
+        width: '95%'
     },
-    imagem: {
-        height: 80,
-        width: 80,
-        borderWidth: 1,
-        resizeMode: 'contain',
-      }, 
-      containerNome: {
+    containerNome: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    containerImagem: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 5,
-        borderColor: 'white',
-        borderRadius: 200,
-        width: 180,
-        height: 180,
-        backgroundColor: '#B6BDAF',
-        elevation: 3,
-    },
-    containerDoContainerImagem: {
-        alignItems: 'center',
     },
 });

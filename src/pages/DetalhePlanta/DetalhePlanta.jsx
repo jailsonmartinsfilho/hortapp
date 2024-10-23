@@ -3,8 +3,10 @@ import { StyleSheet, ScrollView, SafeAreaView, Text, Image, View, TouchableOpaci
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { URL } from '@env';
+import { useUser } from '../../context/UserContext'; 
 
 export default function DetalhePlanta({ route }) {
+    const { user } = useUser(); 
     const navigation = useNavigation(); 
 
     const { planta } = route.params;
@@ -33,17 +35,17 @@ export default function DetalhePlanta({ route }) {
     }
 
     const handleComecarCultivo = (planta) => {
-        axios.post(`http://${URL}:8080/inserirNovoCultivo`, { planta: planta.nome })
+        axios.post(`http://${URL}:8080/inserirNovoCultivo`, { planta: planta.nome, email: user.email })
         .then((response) => {
-            // setDetalhesPlanta(response.data[0]);
-            navigation.navigate('CultivoAtivo', { planta });
+            console.log(detalhesPlanta)
+            // navigation.navigate('CultivoAtivo', { planta });
         }) 
     };
 
     return (
 
         <SafeAreaView style={styles.container}>
-                <ScrollView style={styles.ScrollView}>
+                <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
                 <View style={styles.containerNome}> 
                     <Text style={styles.nome}>{detalhesPlanta.nome}</Text>
                 </View>
@@ -89,6 +91,7 @@ const styles = StyleSheet.create({
         paddingRight: 16,
         backgroundColor: '#D4D4D4',
         paddingTop: 25,
+        paddingBottom: 70,
     },
     nome: {
         fontSize: 50,
@@ -96,17 +99,25 @@ const styles = StyleSheet.create({
         fontFamily: 'FibraOneBold'
     },
     botaoComecarPlantacao: {
-        backgroundColor: 'green',
-        padding: 15,
-        borderRadius: 20,
-        marginTop: 15,
-        alignItems: 'center',
+        backgroundColor: '#5cad39',
+        borderBottomWidth: 5,
+        borderRightWidth: 5,
+        borderColor: '#66B142',
+        height: 55,
+        borderRadius: 8,
         justifyContent: 'center',
-        marginBottom: 100
+        alignItems: 'center',
+        marginBottom: 10,
+        paddingHorizontal: 15,
+        elevation: 2,
+        marginTop: 20,
+        marginBottom: 25,
+        width: '80%'
     },
     textoComecarPlantacao: {
-        color: 'white',
-        fontSize: 24
+        color: '#fff',
+        fontSize: 20,
+        fontFamily: 'FibraOneBold',
     },
     tituloinfo: {
         fontSize: 29,
@@ -130,7 +141,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 20,
         paddingVertical: 18,
-        backgroundColor: '#E4E7E4'
+        paddingHorizontal: 20,
+        backgroundColor: '#E4E7E4',
+        width: '95%'
     },
     imagem: {
         height: 80,
