@@ -7,7 +7,7 @@ import Search from './pages/Search/Search';
 import Garden from './pages/Garden/Garden';
 import Profile from './pages/Profile/Profile';
 import DetalhePlanta from './pages/DetalhePlanta/DetalhePlanta';
-import CultivoAtivo from './pages/CultivoAtivo/CultivoAtivo';
+import DetalhesCultivo from './pages/DetalhesCultivo/DetalhesCultivo';
 import Cadastro from './pages/Cadastro/Cadastro';
 import Login from './pages/Login/Login';
 
@@ -20,7 +20,7 @@ function SearchStackScreen() {
         <SearchStack.Navigator>
             <SearchStack.Screen name="Search" component={Search} options={{ headerShown: false }} />
             <SearchStack.Screen name="DetalhePlanta" component={DetalhePlanta} options={{ headerShown: false }} />
-            <SearchStack.Screen name="CultivoAtivo" component={CultivoAtivo} options={{ headerShown: false }} />
+            <SearchStack.Screen name="DetalhesCultivo" component={DetalhesCultivo} options={{ headerShown: false }} />
         </SearchStack.Navigator>
     );
 }

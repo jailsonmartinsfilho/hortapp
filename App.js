@@ -9,7 +9,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [loaded, error] = useFonts({
-    'FibraOneBold': require('./assets/fonts/FibraOneBold.otf'),
+    'FibraOneBold': require('@/assets/fonts/FibraOneBold.otf'),
   });
 
   useEffect(() => {
