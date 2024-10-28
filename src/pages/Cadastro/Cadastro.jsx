@@ -50,7 +50,7 @@ export default function Cadastro({ navigation }) {
     }, [nome, email, senha, confirmarSenha]);
 
     const handleCadastro = () => {
-        axios.post(`http://${URL}:8080/inserirCadastro`, { nome, email, senha })
+        axios.post(`http://${URL}/inserirCadastro`, { nome, email, senha })
             .then((response) => {
                 if (response.status === 200) {
                     Alert.alert('Cadastro realizado com sucesso!', 'Você precisa realizar o login para acessar sua conta.');

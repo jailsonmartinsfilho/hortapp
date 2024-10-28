@@ -11,9 +11,8 @@ export default function Garden() {
     const [plantasFiltradas, setPlantasFiltradas] = useState([]);
 
     useEffect(() => {
-        axios.post(`http://${URL}:8080/buscarTodosCultivos`)
+        axios.post(`http://${URL}/buscarTodosCultivos`)
             .then((response) => {
-                console.log(response.data)
                 setTodasPlantas(response.data);
                 setPlantasFiltradas(response.data);
             })
@@ -25,6 +24,14 @@ export default function Garden() {
     const handleSelectPlanta = (planta) => {
         navigation.navigate('CultivoAtivo', { planta });
     };
+
+    if (!plantasFiltradas) {
+        return (
+            <View style={styles.container}>
+                <Text>Carregando...</Text>
+            </View>
+        );
+    }
 
     return (
         <SafeAreaView style={styles.SafeAreaView}>

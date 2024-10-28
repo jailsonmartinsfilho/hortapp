@@ -15,7 +15,7 @@ export default function Login({ navigation }) {
     const formularioValido = email.length > 0 && senha.length > 0;
 
     const handleLogin = () => {
-        axios.post(`http://${URL}:8080/realizarLogin`, { email, senha })
+        axios.post(`http://${URL}/realizarLogin`, { email, senha })
             .then((response) => {
                 if (response.status === 200) {
                     const { nome } = response.data;

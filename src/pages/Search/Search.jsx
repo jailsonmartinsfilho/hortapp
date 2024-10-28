@@ -14,7 +14,7 @@ export default function Search() {
     const [plantasFiltradas, setPlantasFiltradas] = useState([]);
 
     useEffect(() => {
-        axios.post(`http://${URL}:8080/buscarTodasPlantas`)
+        axios.post(`http://${URL}/buscarTodasPlantas`)
             .then((response) => {
                 console.log(response.data)
                 setTodasPlantas(response.data);
@@ -36,6 +36,14 @@ export default function Search() {
     const handleSelectPlanta = (planta) => {
         navigation.navigate('DetalhePlanta', { planta });
     };
+
+    if (!plantasFiltradas) {
+        return (
+            <View style={styles.container}>
+                <Text>Carregando...</Text>
+            </View>
+        );
+    }
 
     return (
         <SafeAreaView style={styles.SafeAreaView}>

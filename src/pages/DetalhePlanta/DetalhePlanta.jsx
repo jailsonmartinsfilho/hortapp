@@ -20,7 +20,7 @@ export default function DetalhePlanta({ route }) {
       };
 
     useEffect(() => {
-        axios.post(`http://${URL}:8080/buscarDetalhesPlanta`, { planta: planta.nome })
+        axios.post(`http://${URL}/buscarDetalhesPlanta`, { planta: planta.nome })
             .then((response) => {
                 setDetalhesPlanta(response.data[0]);
             })

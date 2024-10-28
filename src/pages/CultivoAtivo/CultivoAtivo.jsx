@@ -1,33 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, SafeAreaView, Text, View, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, ScrollView, SafeAreaView, Text, View, TouchableOpacity, Image } from 'react-native';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { URL } from '@env';
-import { useUser } from '../../context/UserContext'; 
 
 export default function DetalheCultivo({ route }) {
     const { planta } = route.params;
-    const { user } = useUser(); 
-    const navigation = useNavigation(); 
-
-    const { cultivo } = route.params;
+    const navigation = useNavigation();
     const [detalhesCultivo, setDetalhesCultivo] = useState(null);
 
-    
     const imagensPlantas = {
         batata: require('@/assets/images/batata.png'),
         couve: require('@/assets/images/couve.png'),
         'couve-flor': require('@/assets/images/couveflor.png'),
         tomate: require('@/assets/images/tomate.png'),
-      };
+    };
 
     useEffect(() => {
-        axios.post(`http://${URL}:8080/buscarDetalhesCultivo`, { planta: planta.id_cultivo })
+        axios.post(`http://${URL}/buscarDetalhesCultivo`, { planta: planta.id_cultivo })
             .then((response) => {
-                console.log(response.data)
                 setDetalhesCultivo(response.data[0]);
             })
-    }, [planta]);
+    }, []);
 
     if (!detalhesCultivo) {
         return (
@@ -40,13 +34,13 @@ export default function DetalheCultivo({ route }) {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
-                <View style={styles.containerNome}> 
+                <View style={styles.containerNome}>
                     <Text style={styles.nome}>{detalhesCultivo.nome_planta}</Text>
                 </View>
 
                 <View style={styles.containerDoContainerImagem}>
-                    <View style={styles.containerImagem}> 
-                        <Image source={imagensPlantas[(planta.nome_planta).toLowerCase()]} style={styles.imagem}/>
+                    <View style={styles.containerImagem}>
+                        <Image source={imagensPlantas[(planta.nome_planta).toLowerCase()]} style={styles.imagem} />
                     </View>
                 </View>
 
@@ -65,7 +59,7 @@ export default function DetalheCultivo({ route }) {
                     <Text style={styles.info}>{detalhesCultivo.progresso_cultivo}%</Text>
                 </View>
 
-                <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={styles.botaoVoltar} onPress={() => navigation.navigate('Garden')}>
                     <Text style={styles.textoVoltar}>Voltar</Text>
                 </TouchableOpacity>
             </ScrollView>
@@ -88,12 +82,19 @@ const styles = StyleSheet.create({
     },
     botaoVoltar: {
         backgroundColor: '#5cad39',
+        borderBottomWidth: 5,
+        borderRightWidth: 5,
+        borderColor: '#66B142',
+        height: 55,
         borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: 10,
+        paddingHorizontal: 15,
+        elevation: 2,
         marginTop: 20,
-        paddingVertical: 15,
-        width: '80%',
+        marginBottom: 25,
+        width: '80%'
     },
     textoVoltar: {
         color: '#fff',
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderRadius: 20,
         paddingVertical: 18,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         backgroundColor: '#E4E7E4',
         width: '95%'
     },
@@ -130,4 +131,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    containerImagem: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 5,
+        borderColor: 'white',
+        borderRadius: 200,
+        width: 180,
+        height: 180,
+        backgroundColor: '#B6BDAF',
+        elevation: 3,
+    },
+    containerDoContainerImagem: {
+        alignItems: 'center',
+    },
+    imagem: {
+        height: 80,
+        width: 80,
+        borderWidth: 1,
+        resizeMode: 'contain',
+      }, 
 });
