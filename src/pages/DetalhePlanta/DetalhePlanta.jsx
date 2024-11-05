@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, SafeAreaView, Text, Image, View, TouchableOpacity } from 'react-native';
-import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
 import { URL } from '@env';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import React, { useState } from 'react';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useUser } from '../../context/UserContext';
 
 export default function DetalhePlanta({ route }) {
@@ -19,12 +19,16 @@ export default function DetalhePlanta({ route }) {
         tomate: require('@/assets/images/tomate.png'),
     };
 
-    useEffect(() => {
-        axios.post(`http://${URL}/buscarDetalhesPlanta`, { planta: planta.nome })
+
+    useFocusEffect(
+        React.useCallback(() => {
+            console.log('wa')
+            axios.post(`http://${URL}/buscarDetalhesPlanta`, { planta: planta.nome })
             .then((response) => {
                 setDetalhesPlanta(response.data[0]);
             })
-    }, [planta]);
+        }, [planta])
+    );
 
     if (!detalhesPlanta) {
         return (

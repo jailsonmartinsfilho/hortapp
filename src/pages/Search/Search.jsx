@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, SafeAreaView, TextInput, TouchableOpacity, View, Text } from 'react-native';
-import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
-import ItemPesquisa from '../../components/ItemPesquisa';
-import { Ionicons } from '@expo/vector-icons';
 import { URL } from '@env';
+import { Ionicons } from '@expo/vector-icons';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import React, { useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import ItemPesquisa from '../../components/ItemPesquisa';
+
 
 export default function Search() {
     const navigation = useNavigation();
@@ -12,12 +13,14 @@ export default function Search() {
     const [textoPesquisa, setTextoPesquisa] = useState('');
     const [plantasFiltradas, setPlantasFiltradas] = useState([]);
 
-    useEffect(() => {
-        axios.post(`http://${URL}/buscarTodasPlantas`)
-            .then((response) => {
-                setPlantasFiltradas(response.data);
-            })
-    }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+            axios.post(`http://${URL}/buscarTodasPlantas`)
+                .then((response) => {
+                    setPlantasFiltradas(response.data);
+                });
+        }, [])
+    );
 
     const handlePesquisa = (textoPesquisaPassado) => {
         setTextoPesquisa(textoPesquisaPassado);

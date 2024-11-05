@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, SafeAreaView, TouchableOpacity, View, Text } from 'react-native';
-import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
-import ItemPesquisa from '../../components/ItemPesquisa';
 import { URL } from '@env';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import React, { useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import ItemPesquisa from '../../components/ItemPesquisa';
 
 export default function Garden() {
     const navigation = useNavigation();
@@ -12,6 +11,7 @@ export default function Garden() {
 
     useFocusEffect(
         React.useCallback(() => {
+            console.log('buscou')
             axios.post(`http://${URL}/buscarTodosCultivos`)
                 .then((response) => {
                     setPlantasFiltradas(response.data);

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
+import { URL } from '@env';
 import { CommonActions } from '@react-navigation/native';
 import axios from 'axios';
-import { useUser } from '../../context/UserContext';
-import { URL } from '@env';
+import React, { useState } from 'react';
+import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useUser } from '../../context/UserContext';
 
 export default function Login({ navigation }) {
     const [email, setEmail] = useState('');
@@ -15,6 +15,7 @@ export default function Login({ navigation }) {
     const formularioValido = email.length > 0 && senha.length > 0;
 
     const handleLogin = () => {
+        console.log("wa")
         axios.post(`http://${URL}/realizarLogin`, { email, senha })
             .then((response) => {
                 if (response.status === 200) {

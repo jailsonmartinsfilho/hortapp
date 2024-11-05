@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, SafeAreaView, Text, View, TouchableOpacity, Image } from 'react-native';
-import axios from 'axios';
-import { useNavigation } from '@react-navigation/native';
 import { URL } from '@env';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import React, { useState } from 'react';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function DetalhesCultivo({ route }) {
     const { planta } = route.params;
@@ -16,12 +16,15 @@ export default function DetalhesCultivo({ route }) {
         tomate: require('@/assets/images/tomate.png'),
     };
 
-    useEffect(() => {
-        axios.post(`http://${URL}/buscarDetalhesCultivo`, { planta: planta.id_cultivo })
+    useFocusEffect(
+        React.useCallback(() => {
+            console.log('wa')
+            axios.post(`http://${URL}/buscarDetalhesCultivo`, { planta: planta.id_cultivo })
             .then((response) => {
                 setDetalhesCultivo(response.data[0]);
             })
-    }, []);
+        }, [planta])
+    );
 
     if (!detalhesCultivo) {
         return (
