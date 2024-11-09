@@ -20,20 +20,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 10,
-    borderColor: 'white',
-    backgroundColor: '#DCDEDD',
+    backgroundColor: '#fff',
     borderRadius: 10,
     height: 80,
     width: 80, 
-    borderColor: 'transparent', // Borda transparente para simular o brilho
-    borderLeftColor: 'white',   // Luz no canto superior esquerdo
-    borderTopColor: 'white',    // Luz no topo
-        // Simular sombra no canto inferior direito
-    shadowColor: '#000',
-    shadowOffset: { width: 5, height: 5 }, // Deslocamento da sombra
-    shadowOpacity: 0.5, // Intensidade da sombra
-    shadowRadius: 6,
-    elevation: 8, // Sombras no Android
+    borderWidth: 2,
+    borderColor: 'gray'
   },
   imagem: {
     height: 45,

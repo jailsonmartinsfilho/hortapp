@@ -17,6 +17,7 @@ export default function Search() {
         React.useCallback(() => {
             axios.post(`http://${URL}/buscarTodasPlantas`)
                 .then((response) => {
+                    console.log(response.data)
                     setPlantasFiltradas(response.data);
                 });
         }, [])
@@ -44,6 +45,8 @@ export default function Search() {
 
     return (
         <SafeAreaView style={styles.SafeAreaView}>
+                        <Text style={styles.textoSuasPlantacoesAtivas}>Pesquisar uma nova plantação</Text>
+
             <View style={styles.lupaSearchBar}>
                 <TextInput style={styles.searchBar} placeholder="Qual será sua nova plantação?" value={textoPesquisa} onChangeText={handlePesquisa} />
                 <View style={styles.containerLupa}>
@@ -65,12 +68,13 @@ export default function Search() {
 }
 
 const styles = StyleSheet.create({
-    SafeAreaView: { flex: 1, marginTop: 30, paddingRight: 20, paddingLeft: 20, backgroundColor: '#D4D4D4', paddingBottom: 70 },
-    containerLupa: { backgroundColor: '#939793', width: '100%', height: '100%', paddingTop: 12, paddingLeft: 17 },
-    lupaSearchBar: { backgroundColor: '#ECECEC', flexDirection: 'row', alignItems: 'center', borderColor: 'gray', paddingLeft: 15, borderRadius: 200, overflow: 'hidden', marginTop: 20, shadowColor: '#000', shadowOffset: { width: 0, height: 5 }, shadowOpacity: 0.3, shadowRadius: 6, elevation: 8, overflow: 'hidden', position: 'relative' },
-    searchBar: { backgroundColor: '#ECECEC', borderRadius: 200, height: 50, paddingHorizontal: 10, width: 240 },
+    SafeAreaView: { flex: 1, marginTop: 30, paddingRight: 20, paddingLeft: 20, backgroundColor: '#fff', paddingBottom: 70 },
+    containerLupa: { backgroundColor: '#939793', width: '40%', height: '100%', paddingTop: 12, paddingLeft: 20 },
+    lupaSearchBar: { backgroundColor: '#ECECEC', flexDirection: 'row', alignItems: 'center', borderColor: 'gray', paddingLeft: 5, borderRadius: 200, overflow: 'hidden', marginTop: 20, position: 'relative' },
+    searchBar: { backgroundColor: '#ECECEC', borderRadius: 200, height: 50, paddingHorizontal: 10, width: 280 },
     ScrollView: { flex: 1 },
     contentContainer: { flexDirection: 'row', flexWrap: 'wrap' },
     gridContainer: { marginTop: 20, paddingLeft: 20, flexDirection: 'row', flexWrap: 'wrap' },
-    gridItem: { width: '33%', marginBottom: 20 }
+    gridItem: { width: '33%', marginBottom: 20 },
+    textoSuasPlantacoesAtivas: { fontSize: 29, fontFamily: 'FibraOneBold', color: '#5cad39', marginBottom: 10, marginTop: 20 },
 });

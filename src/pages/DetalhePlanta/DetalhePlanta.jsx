@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     textoComecarPlantacao: { color: '#fff', fontSize: 20, fontFamily: 'FibraOneBold' },
     tituloinfo: { fontSize: 29, marginBottom: 5, fontFamily: 'FibraOneBold' },
     info: { fontSize: 20, marginBottom: 5, fontFamily: 'FibraOneBold' },
-    infosecaocultivo: { fontSize: 20, marginTop: 20, marginBottom: 5, fontFamily: 'FibraOneBold', borderWidth: 3, borderColor: 'white', justifyContent: 'center', alignItems: 'center', borderRadius: 20, paddingVertical: 18, paddingHorizontal: 20, backgroundColor: '#E4E7E4', width: '95%' },
+    infosecaocultivo: { fontSize: 20, marginTop: 20, marginBottom: 5, fontFamily: 'FibraOneBold', borderWidth: 3, borderColor: 'white', textAlign: 'center', justifyContent: 'center', alignItems: 'center', borderRadius: 20, paddingVertical: 18, paddingHorizontal: 25, backgroundColor: '#E4E7E4', width: '95%' },
     imagem: { height: 80, width: 80, borderWidth: 1, resizeMode: 'contain' },
     containerNome: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
     containerImagem: { alignItems: 'center', justifyContent: 'center', borderWidth: 5, borderColor: 'white', borderRadius: 200, width: 180, height: 180, backgroundColor: '#B6BDAF', elevation: 3 },
