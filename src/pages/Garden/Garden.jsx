@@ -3,7 +3,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import ItemPesquisa from '../../components/ItemPesquisa';
+import ItemJardim from '../../components/ItemJardim';
 
 export default function Garden() {
     const navigation = useNavigation();
@@ -38,7 +38,7 @@ export default function Garden() {
                 <View style={styles.gridContainer}>
                     {plantasFiltradas.map((planta, index) => (
                         <TouchableOpacity key={index} onPress={() => handleSelectPlanta(planta)} style={styles.gridItem}>
-                            <ItemPesquisa nome={planta.nome_planta} />
+                            <ItemJardim nome={planta.nome_planta} />
                         </TouchableOpacity>
                     ))}
                 </View>
@@ -54,8 +54,7 @@ const styles = StyleSheet.create({
     searchBar: { backgroundColor: '#ECECEC', borderRadius: 200, height: 50, paddingHorizontal: 10, width: 240 },
     ScrollView: { flex: 1 },
     contentContainer: { flexDirection: 'row', flexWrap: 'wrap' },
-    gridContainer: { marginTop: 20, paddingLeft: 20, flexDirection: 'row', flexWrap: 'wrap' },
-    gridItem: { width: 100, marginBottom: 20, },
-    textoSuasPlantacoesAtivas: { fontSize: 29, fontFamily: 'FibraOneBold', color: '#5cad39', marginBottom: 10, marginTop: 20 },
-    
+    gridContainer: { marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' },
+    gridItem: { width: 150, marginBottom: 20, justifyContent: 'center', alignItems: 'center' },
+    textoSuasPlantacoesAtivas: { fontSize: 26, fontFamily: 'FibraOneBold', color: '#5cad39', marginBottom: 10, marginTop: 20 },
 });

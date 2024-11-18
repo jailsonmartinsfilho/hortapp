@@ -7,7 +7,7 @@ const imagensPlantas = {
   tomate: require('@/assets/images/tomate.png'),
 };
 
-export default function ItemPesquisa({ nome }) {
+export default function ItemJardim({ nome }) {
   return (
     <View style={styles.itemPesquisa}>
       <Image source={imagensPlantas[nome.toLowerCase()]} style={styles.imagem} />
@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#9ed46c',
+    justifyContent: 'center',
+    backgroundColor: '#46f739',
     height: 60,
     width: '100%', 
-    paddingLeft: 25,
     borderRadius: 10
   },
   imagem: {
