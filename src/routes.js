@@ -34,7 +34,7 @@ function TabRoutes() {
         <Tab.Navigator screenOptions={{
             tabBarActiveTintColor: 'green', tabBarShowLabel: false, tabBarStyle:
             {
-                position: 'absolute', backgroundColor: '#171626', borderTopWidth: 0, elevation: 0, height: 70,
+                position: 'absolute', backgroundColor: '#171626', borderTopWidth: 1, backgroundColor: '#fff', borderTopColor: 'gray', elevation: 0, height: 60, alignItems: 'center'
             }
         }}>
             <Tab.Screen name="SearchTab" component={SearchStackScreen} options={{ headerShown: false, tabBarIcon: renderizarIcone('search-outline') }} />
