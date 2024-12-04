@@ -1,4 +1,4 @@
-// Concluído, revisado, otimizado e padronizado por Jailson Martins às 02:33 de 04/12/2024.
+// Concluído, revisado, otimizado e padronizado por Jailson Martins às 12:32 de 04/12/2024.
 
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -7,7 +7,6 @@ import axios from 'axios';
 import { URL } from '@env';
 import { useUser } from '../../context/UserContext';
 import Icon from 'react-native-vector-icons/Ionicons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 export default function Cadastro({ navigation }) {
     const [exibirFormulario, setExibirFormulario] = useState(false);
@@ -23,6 +22,10 @@ export default function Cadastro({ navigation }) {
     const [mostrarSenha, setMostrarSenha] = useState(false);
     const [mostrarSenha2, setMostrarSenha2] = useState(false);
     const [mensagemErro, setMensagemErro] = useState('');
+    const [dadosUsuario, setDadosUsuario] = useState(null);
+    const [telaAtual, setTelaAtual] = useState('cadastro'); 
+    const [codigoUsuario, setCodigoUsuario] = useState('');
+    const [codigoServidor, setCodigoServidor] = useState(null); 
 
     const { setUser } = useUser();
 
@@ -84,79 +87,113 @@ export default function Cadastro({ navigation }) {
         }
     }, [senha, confirmarSenha]);
 
-    const handleCadastro = () => {
-        axios.post(`http://${URL}/inserirCadastro`, { nome, email, senha })
-            .then((response) => {
-                const dadosUsuario = response.data;
-                setUser(dadosUsuario);
-                navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'TabRoutes' }] }));
-            });
+    const handleCadastro = async () => {
+        console.log("Iniciando processo de cadastro...");
+    
+        try {
+            console.log("Enviando dados para inserção de cadastro...");
+            const cadastroResponse = await axios.post(`http://${URL}/inserirCadastro`, { nome, email, senha });
+            console.log("Resposta do backend ao inserir cadastro:", cadastroResponse.data);
+    
+            const dadosUsuario = cadastroResponse.data;
+            setDadosUsuario(dadosUsuario);
+    
+            console.log("Enviando solicitação para verificação de email...");
+            const verificarResponse = await axios.post(`http://${URL}/verificarEmail`, { email });
+            console.log("Resposta do backend ao verificar email:", verificarResponse.data);
+    
+            setCodigoServidor(verificarResponse.data.codigoVerificacao);
+            setTelaAtual('verificacao');
+        } catch (error) {
+            console.error("Erro no processo de cadastro:", error);
+            alert("Ocorreu um erro. Por favor, tente novamente.");
+        }
     };
-
+    
+    const handleVerificarCodigo = () => {
+        if (parseInt(codigoUsuario) === codigoServidor) {
+            alert("Verificação concluída com sucesso!");
+            setUser(dadosUsuario);
+            navigation.dispatch(CommonActions.reset({ index: 0, routes: [{ name: 'TabRoutes' }] }));
+        } else {
+            alert("Código incorreto. Tente novamente.");
+        }
+    };
+    
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.botaoVoltar} onPress={() => setExibirFormulario(false)}>
-                <Icon name="arrow-back" size={24} color="#333" />
-            </TouchableOpacity>
-
-            <View style={styles.containerDemeterChan}>
-                <Image source={require('@/assets/icon.png')} style={styles.demeterChan} />
-            </View>
-
-            <Text style={styles.textoCriarConta}>Crie sua conta</Text>
-
-            {!exibirFormulario ? (
-                <View style={styles.containerCentral}>
-                    <TouchableOpacity style={[styles.botaoCriarContaCom, { backgroundColor: '#ffffff' }]} onPress={() => console.log('Criar conta com Google')}>
-                        <Image source={require('@/assets/images/google.png')} style={{ height: 35, width: 35 }} />
-                        <Text style={[styles.textoBotaoCadastrar, { color: 'black' }]}>Criar conta com Google</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity style={[styles.botaoCriarContaCom, { backgroundColor: '#5a93ed' }]} onPress={() => setExibirFormulario(true)}>
-                        <Image source={require('@/assets/images/email.png')} style={{ height: 30, width: 30, marginLeft: 5 }} />
-                        <Text style={styles.textoBotaoCadastrar}>Criar conta com E-mail</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                        <Text style={styles.textoJaTemUmaConta}>Já tem uma conta? Faça login</Text>
-                    </TouchableOpacity>
-                </View>
-            ) : (
+            {telaAtual === 'cadastro' && (
                 <View>
-                    <TextInput style={[styles.entradasDeCredenciais, erroNome && styles.erroBorda]} placeholder="Insira seu nome de usuário" value={nome} onChangeText={(text) => setNome(text.slice(0, 15))} />
-                    <TextInput style={[styles.entradasDeCredenciais, erroEmail && styles.erroBorda]} placeholder="Insira seu e-mail" keyboardType="email-address" value={email} onChangeText={setEmail} />
-
-                    <View style={[styles.containerEntradasDeSenha, erroSenha && styles.erroBorda]}>
-                        <TextInput style={styles.entradasDeSenha} placeholder="Insira sua senha" secureTextEntry={!mostrarSenha} value={senha} onChangeText={setSenha} />
-                        <TouchableOpacity onPress={() => setMostrarSenha(!mostrarSenha)}>
-                            <Icon style={{ paddingLeft: 10 }} name={mostrarSenha ? 'eye-off' : 'eye'} size={24} color="gray" />
-                        </TouchableOpacity>
+                    <TouchableOpacity style={[styles.botaoVoltar, !exibirFormulario && { display: 'none' }]} onPress={() => setExibirFormulario(false)}>
+                        <Icon name="arrow-back" size={24} color="#333" />
+                    </TouchableOpacity>
+    
+                    <View style={styles.containerDemeterChan}>
+                        <Image source={require('@/assets/icon.png')} style={styles.demeterChan} />
                     </View>
-
-                    <View style={[styles.containerEntradasDeSenha, erroConfirmarSenha && styles.erroBorda]}>
-                        <TextInput style={styles.entradasDeSenha} placeholder="Confirme sua senha" secureTextEntry={!mostrarSenha2} value={confirmarSenha} onChangeText={setConfirmarSenha} />
-                        <TouchableOpacity onPress={() => setMostrarSenha2(!mostrarSenha2)}>
-                            <Icon style={{ paddingLeft: 10 }} name={mostrarSenha2 ? 'eye-off' : 'eye'} size={24} color="gray" />
-                        </TouchableOpacity>
-                    </View>
-
-                    <View style={styles.containerMensagemErro}>
-                        {mensagemErro && (
-                            <View>
-                                <FontAwesome5 name="exclamation-triangle" size={15} color="red" style={{ position: 'absolute', left: -20, top: 15 }} />
-                                <FontAwesome5 name="exclamation-triangle" size={15} color="red" style={{ position: 'absolute', right: -20, top: 15 }} />
-                                <Text style={styles.mensagemErro}>{mensagemErro}</Text>
+    
+                    <Text style={styles.textoCriarConta}>Crie sua conta</Text>
+    
+                    {!exibirFormulario ? (
+                        <View style={styles.containerCentral}>
+                            <TouchableOpacity style={[styles.botaoCriarContaCom, { backgroundColor: '#ffffff' }]} onPress={() => console.log('Criar conta com Google')}>
+                                <Image source={require('@/assets/images/google.png')} style={{ height: 35, width: 35 }} />
+                                <Text style={[styles.textoBotaoCadastrar, { color: 'black' }]}>Criar conta com Google</Text>
+                            </TouchableOpacity>
+    
+                            <TouchableOpacity style={[styles.botaoCriarContaCom, { backgroundColor: '#5a93ed' }]} onPress={() => setExibirFormulario(true)}>
+                                <Image source={require('@/assets/images/email.png')} style={{ height: 30, width: 30, marginLeft: 5 }} />
+                                <Text style={styles.textoBotaoCadastrar}>Criar conta com E-mail</Text>
+                            </TouchableOpacity>
+    
+                            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                                <Text style={styles.textoJaTemUmaConta}>Já tem uma conta? Faça login</Text>
+                            </TouchableOpacity>
+                        </View>
+                    ) : (
+                        <View>
+                            <TextInput style={[styles.entradasDeCredenciais, erroNome && styles.erroBorda]} placeholder="Insira seu nome de usuário" value={nome} onChangeText={(text) => setNome(text.slice(0, 15))} />
+                            <TextInput style={[styles.entradasDeCredenciais, erroEmail && styles.erroBorda]} placeholder="Insira seu e-mail" keyboardType="email-address" value={email} onChangeText={setEmail} />
+    
+                            <View style={[styles.containerEntradasDeSenha, erroSenha && styles.erroBorda]}>
+                                <TextInput style={styles.entradasDeSenha} placeholder="Insira sua senha" secureTextEntry={!mostrarSenha} value={senha} onChangeText={setSenha} />
+                                <TouchableOpacity onPress={() => setMostrarSenha(!mostrarSenha)}>
+                                    <Icon style={{ paddingLeft: 10 }} name={mostrarSenha ? 'eye-off' : 'eye'} size={24} color="gray" />
+                                </TouchableOpacity>
                             </View>
-                        )}
+    
+                            <View style={[styles.containerEntradasDeSenha, erroConfirmarSenha && styles.erroBorda]}>
+                                <TextInput style={styles.entradasDeSenha} placeholder="Confirme sua senha" secureTextEntry={!mostrarSenha2} value={confirmarSenha} onChangeText={setConfirmarSenha} />
+                                <TouchableOpacity onPress={() => setMostrarSenha2(!mostrarSenha2)}>
+                                    <Icon style={{ paddingLeft: 10 }} name={mostrarSenha2 ? 'eye-off' : 'eye'} size={24} color="gray" />
+                                </TouchableOpacity>
+                            </View>
+    
+                            <TouchableOpacity style={[styles.botaoCadastrar, { opacity: formularioValido ? 1 : 0.5 }]} onPress={handleCadastro} disabled={!formularioValido}>
+                                <Text style={styles.textoBotaoCadastrar}>Continuar para a verificação de Email</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                </View>
+            )}
+    
+            {telaAtual === 'verificacao' && (
+                <View>
+                    <View style={styles.containerDemeterChan}>
+                        <Image source={require('@/assets/icon.png')} style={styles.demeterChan} />
                     </View>
-
-                    <TouchableOpacity style={[styles.botaoCadastrar, { opacity: formularioValido ? 1 : 0.5 }]} onPress={handleCadastro} disabled={!formularioValido}>
-                        <Text style={styles.textoBotaoCadastrar}>Cadastrar agora!</Text>
+    
+                    <Text style={styles.textoCriarConta}>Verifique seu e-mail</Text>
+    
+                    <TextInput style={styles.entradasDeCredenciais} placeholder="Insira o código de verificação" keyboardType="number-pad" value={codigoUsuario} onChangeText={setCodigoUsuario}/>
+    
+                    <TouchableOpacity style={styles.botaoCadastrar} onPress={handleVerificarCodigo}>
+                        <Text style={styles.textoBotaoCadastrar}>Verificar Código</Text>
                     </TouchableOpacity>
                 </View>
             )}
         </View>
-    );
+    );    
 }
 
 const styles = StyleSheet.create({
@@ -173,6 +210,6 @@ const styles = StyleSheet.create({
     containerMensagemErro: { display: 'flex', justifyContent: 'center', width: 285, minHeight: 60 },
     mensagemErro: { fontFamily: 'FibraOneMedium', fontSize: 12, color: 'red', textAlign: 'center', marginBottom: 15 },
     botaoCadastrar: { display: 'flex', flexDirection: 'row', backgroundColor: '#5cad39', justifyContent: 'center', alignItems: 'center', borderRadius: 8, width: 285, height: 60, marginBottom: 10 },
-    textoBotaoCadastrar: { fontSize: 17, fontFamily: 'FibraOneMedium', color: '#fff' },
+    textoBotaoCadastrar: { fontSize: 14, fontFamily: 'FibraOneMedium', color: '#fff' },
     erroBorda: { borderColor: 'red' }
 });

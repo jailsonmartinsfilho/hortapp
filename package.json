@@ -28,7 +28,8 @@
     "react-native-screens": "3.31.1",
     "react-native-vector-icons": "^10.2.0",
     "sharp-cli": "^5.1.0",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "expo-system-ui": "~3.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
