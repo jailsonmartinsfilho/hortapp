@@ -1,3 +1,5 @@
+// Concluído, revisado, otimizado e padronizado por Jailson Martins às 16:24 de 04/12/2024.
+
 import { URL } from '@env';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -56,7 +58,7 @@ export default function DetalhePlanta({ route }) {
             nome_planta: detalhesPlanta.nome,
             nome_cientifico: detalhesPlanta.nome_cientifico,
             tempo_cultivo: detalhesPlanta.tempo_cultivo,
-            data_inicio: new Date(),// Data atual no formato YYYY-MM-DD
+            data_inicio: new Date(), 
             data_estimativa_colheita: new Date(new Date().setDate(new Date().getDate() + detalhesPlanta.tempo_cultivo)),
             progresso_cultivo: 0,
             quantidade_rega: detalhesPlanta.quantidade_rega,
@@ -102,7 +104,7 @@ export default function DetalhePlanta({ route }) {
                     <View style={styles.containerSecoesInfo}>
                         <View style={styles.cabecalhoInfo}>
                             <Text style={styles.tituloSecao}>{detalhesPlanta.nome}</Text>
-                            <Text style={styles.infoSecao}>Nomes comuns: {detalhesPlanta.nomes_comuns}</Text>
+                            <Text style={[styles.infoSecao, { marginBottom: 5 }]}>Nomes comuns: {detalhesPlanta.nomes_comuns}</Text>
                             <Text style={styles.infoSecao}>Nome científico: {detalhesPlanta.nome_cientifico}</Text>
 
                             <View style={styles.secaoEtiquetas}>
@@ -189,8 +191,8 @@ export default function DetalhePlanta({ route }) {
                             </TouchableOpacity>
                         </View>
 
-                        <TouchableOpacity style={styles.botaoComecarPlantacao} onPress={() => handleComecarCultivo(detalhesPlanta)}>
-                            <Text style={styles.textoComecarPlantacao}>+ Adicionar plantação</Text>
+                        <TouchableOpacity style={styles.botaoAdicionarPlantacao} onPress={() => handleComecarCultivo(detalhesPlanta)}>
+                            <Text style={styles.textoAdicionarPlantacao}>+ Adicionar plantação</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -200,225 +202,33 @@ export default function DetalhePlanta({ route }) {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingLeft: 0,
-        paddingRight: 0,
-        backgroundColor: '#ffffff',
-        paddingBottom: 70,
-    },
-    containerImagem: {
-        alignItems: 'center',
-        overflow: 'hidden',
-        justifyContent: 'center',
-        width: '100%',
-        height: 250,
-        backgroundColor: '#B6BDAF',
-        elevation: 3,
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 0,
-    },
-    imagem: {
-        width: '100%',
-        height: '100%',
-        borderWidth: 1,
-        resizeMode: 'cover',
-    },
-    overlayContainer: {
-        zIndex: 0,
-        width: '100%'
-    },
-    scrollViewContent: {
-        alignItems: 'center',
-        paddingTop: 230,
-    },
-    containerSecoesInfo: {
-        display: 'flex',
-        alignItems: 'center',
-        fontFamily: 'FibraOneBold',
-        borderRadius: 20,
-        backgroundColor: '#ecf6f1',
-        width: '100%',
-    },
-    secaoInfo: {
-        backgroundColor: '#ffffff',
-        padding: 17,
-        borderRadius: 10,
-        marginBottom: 15,
-        elevation: 1,
-        width: '90%'
-    },
-    circuloSecao: {
-        width: 50,
-        height: 50,
-        borderRadius: 50,
-        backgroundColor: '#e5f7ff',
-        display: 'flex',
-        alignItems: 'center',
-        textAlign: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden'
-    },
-    containerCirculoInfoSecao: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 10,
-    },
-    containerDoisTextos: {
-        display: 'flex',
-        flexDirection: 'column'
-    },
-    tituloSecao: {
-        fontSize: 24,
-        marginBottom: 20,
-        fontFamily: 'FibraOneBold'
-    },
-    infoSecao: {
-        fontSize: 16,
-        fontFamily: 'FibraOneMedium',
-    },
-    secaoReportar: {
-        paddingTop: 20,
-        paddingLeft: 10,
-        paddingRight: 10,
-        backgroundColor: '#ffffff',
-        display: 'flex',
-        textAlign: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-        marginBottom: 15,
-        elevation: 1,
-        width: '90%'
-    },
-    tituloReportar: {
-        textAlign: 'center',
-        fontSize: 18,
-        marginBottom: 10,
-        fontFamily: 'FibraOneBold'
-    },
-    subTituloReportar: {
-        textAlign: 'center',
-        fontSize: 15,
-        fontFamily: 'FibraOneMedium',
-        marginBottom: 7
-    },
-    botaoReportarErro: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        borderWidth: 1,
-        borderColor: '#1fcc98',
-        backgroundColor: '#ffffff',
-        height: 40,
-        borderRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 10,
-        paddingHorizontal: 15,
-        elevation: 2,
-        marginTop: 20,
-        marginBottom: 25,
-        width: '70%',
-    },
-    textoReportarErro: {
-        color: '#1fcc98',
-        fontSize: 17,
-        fontFamily: 'FibraOneMedium'
-    },
-    secaoEtiquetas: {
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        backgroundColor: '#ffffff',
-        paddingTop: 13,
-        height: 'auto',
-        gap: 10
-    },
-    etiqueta: {
-        padding: 10,
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#f5faf9',
-        height: 45,
-        width: 158,
-        borderRadius: 7,
-        marginBottom: 5
-    },
-    infoEtiqueta: {
-        fontSize: 16,
-        fontFamily: 'FibraOneMedium',
-        marginLeft: 7
-    },
-    cabecalhoInfo: {
-        backgroundColor: '#ffffff',
-        padding: 17,
-        borderRadius: 10,
-        marginBottom: 15,
-        elevation: 1,
-        width: '100%'
-    },
-    containerTemperatura: {
-        marginTop: 20,
-        alignItems: 'center',
-    },
-    extremosTemperatura: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        marginBottom: 4,
-    },
-    extremoTexto: {
-        fontSize: 15,
-        color: '#666',
-        fontFamily: 'FibraOneMedium'
-    },
-    barraTemperatura: {
-        position: 'relative',
-        height: 30,
-        width: '100%',
-        backgroundColor: '#e0e0e0',
-        borderRadius: 50,
-        overflow: 'hidden',
-    },
-    zonaIdeal: {
-        position: 'absolute',
-        height: '100%',
-        backgroundColor: '#49cdf0',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 50,
-    },
-    intervaloTexto: {
-        color: 'white',
-        fontWeight: 'bold',
-        fontSize: 13,
-    },
-    botaoComecarPlantacao: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        backgroundColor: '#1fcc98',
-        height: 55,
-        borderRadius: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 10,
-        paddingHorizontal: 15,
-        elevation: 2,
-        marginTop: 20,
-        marginBottom: 25,
-        width: '80%',
-    },
-    textoComecarPlantacao: {
-        color: '#fff',
-        fontSize: 20,
-        fontFamily: 'FibraOneBold'
-    }
+    container: { flex: 1, paddingLeft: 0, paddingRight: 0, backgroundColor: '#ffffff', paddingBottom: 70 },
+    containerImagem: { alignItems: 'center', overflow: 'hidden', justifyContent: 'center', width: '100%', height: 250, backgroundColor: '#B6BDAF', elevation: 3, position: 'absolute', top: 0, left: 0, right: 0, zIndex: 0, },
+    imagem: { width: '100%', height: '100%', borderWidth: 1, resizeMode: 'cover' },
+    overlayContainer: { zIndex: 0, width: '100%' },
+    scrollViewContent: { alignItems: 'center', paddingTop: 230 },
+    containerSecoesInfo: { display: 'flex', alignItems: 'center', fontFamily: 'FibraOneBold', borderRadius: 20, backgroundColor: '#ecf6f1', width: '100%' },
+    secaoInfo: { backgroundColor: '#ffffff', padding: 17, borderRadius: 10, marginBottom: 15, elevation: 1, width: '90%' },
+    circuloSecao: { width: 50, height: 50, borderRadius: 50, backgroundColor: '#e5f7ff', display: 'flex', alignItems: 'center', textAlign: 'center', justifyContent: 'center', overflow: 'hidden' },
+    containerCirculoInfoSecao: { display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10, },
+    containerDoisTextos: { display: 'flex', flexDirection: 'column' },
+    tituloSecao: { fontSize: 24, marginBottom: 20, fontFamily: 'FibraOneBold', color: '#0f4d2e' },
+    infoSecao: { fontSize: 16, fontFamily: 'FibraOneMedium', },
+    secaoReportar: { paddingTop: 20, paddingLeft: 10, paddingRight: 10, backgroundColor: '#ffffff', display: 'flex', textAlign: 'center', alignItems: 'center', borderRadius: 10, marginBottom: 15, elevation: 1, width: '90%' },
+    tituloReportar: { textAlign: 'center', fontSize: 18, marginBottom: 10, fontFamily: 'FibraOneBold' },
+    subTituloReportar: { textAlign: 'center', fontSize: 15, fontFamily: 'FibraOneMedium', marginBottom: 7 },
+    botaoReportarErro: { display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', borderWidth: 1, borderColor: '#1fcc98', backgroundColor: '#ffffff', height: 40, borderRadius: 50, justifyContent: 'center', alignItems: 'center', marginBottom: 10, paddingHorizontal: 15, elevation: 2, marginTop: 20, marginBottom: 25, width: '70%', },
+    textoReportarErro: { color: '#1fcc98', fontSize: 15, fontFamily: 'FibraOneMedium' },
+    secaoEtiquetas: { display: 'flex', flexDirection: 'row', flexWrap: 'wrap', backgroundColor: '#ffffff', paddingTop: 13, height: 'auto', gap: 10 },
+    etiqueta: { display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: '#f5faf9', height: 45, width: 158, elevation: 2, borderRadius: 7, padding: 10, marginBottom: 5 },
+    infoEtiqueta: { fontSize: 15, fontFamily: 'FibraOneMedium', marginLeft: 7 },
+    cabecalhoInfo: { backgroundColor: '#ffffff', padding: 17, borderRadius: 10, marginBottom: 15, elevation: 1, width: '100%' },
+    containerTemperatura: { marginTop: 20, alignItems: 'center' },
+    extremosTemperatura: { flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginBottom: 4 },
+    extremoTexto: { fontSize: 15, color: '#666', fontFamily: 'FibraOneMedium' },
+    barraTemperatura: { position: 'relative', height: 30, width: '100%', backgroundColor: '#e0e0e0', borderRadius: 50, overflow: 'hidden' },
+    zonaIdeal: { position: 'absolute', height: '100%', backgroundColor: '#49cdf0', justifyContent: 'center', alignItems: 'center', borderRadius: 50 },
+    intervaloTexto: { color: 'white', fontWeight: 'bold', fontSize: 13 },
+    botaoAdicionarPlantacao: { display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', backgroundColor: '#1fcc98', height: 55, borderRadius: 50, justifyContent: 'center', alignItems: 'center', marginBottom: 10, paddingHorizontal: 15, elevation: 2, marginTop: 20, marginBottom: 25, width: 270 },
+    textoAdicionarPlantacao: { color: '#fff', fontSize: 17, fontFamily: 'FibraOneBold' }
 });

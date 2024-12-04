@@ -9,12 +9,10 @@ import { useUser } from '../../context/UserContext';
 
 export default function Garden() {
     const navigation = useNavigation();
-    const [plantasFiltradas, setPlantasFiltradas] = useState([]);
     const { user } = useUser();
-    const email = user.email;
 
-    console.log('imprimindo email')
-    console.log(email)
+    const [plantasFiltradas, setPlantasFiltradas] = useState([]);
+    const email = user.email;
 
     useFocusEffect(
         React.useCallback(() => {

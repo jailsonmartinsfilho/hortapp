@@ -1,8 +1,7 @@
+// Concluído, revisado, otimizado e padronizado por Jailson Martins às 16:24 de 04/12/2024.
+
 import { View, StyleSheet, Image, Text } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 
 const imagensPlantas = {
   batata: require('@/assets/images/batata.png'),
@@ -19,7 +18,6 @@ const imagensPlantas = {
   alface: require('@/assets/images/alface.png'),
   coentro: require('@/assets/images/coentro.png'),
 };
-
 
 export default function ItemJardim({ nome, nome_cientifico }) {
   return (
@@ -44,50 +42,11 @@ export default function ItemJardim({ nome, nome_cientifico }) {
 }
 
 const styles = StyleSheet.create({
-  itemPesquisa: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    height: 145,
-    width: '99%',
-    paddingLeft: 12,
-    borderRadius: 20,
-    elevation: 3
-  },
-  containerImagem: {
-    borderRadius: 10,
-    height: 110,
-    width: 90,
-    overflow: 'hidden',
-  },
-  imagem: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover'
-  },
-  texto: {
-    fontSize: 22,
-    fontFamily: 'FibraOneBold',
-    color: '#202420'
-  },
-  subTexto: {
-    fontSize: 15,
-    fontFamily: 'FibraOneMedium',
-    color: '#202420',
-    marginTop: 7,
-    marginBottom: 11
-  },
-  containerPlantacaoInfo: {
-    width: '100%',
-    height: '100%',
-    paddingTop: 10,
-    paddingLeft: 15
-  },
-  etiqueta: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5
-  }
+  itemPesquisa: { display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: '#ffffff', height: 145, width: '99%', paddingLeft: 12, borderRadius: 20, elevation: 2 },
+  containerImagem: { borderRadius: 10, height: 110, width: 90, overflow: 'hidden' },
+  imagem: { width: '100%', height: '100%', resizeMode: 'cover' },
+  texto: { fontSize: 22, fontFamily: 'FibraOneBold', color: '#0f4d2e' },
+  subTexto: { fontSize: 15, fontFamily: 'FibraOneMedium', color: '#0f4d2e', marginTop: 7, marginBottom: 11 },
+  containerPlantacaoInfo: { width: '100%', height: '100%', paddingTop: 10, paddingLeft: 15 },
+  etiqueta: { display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 5 }
 });
