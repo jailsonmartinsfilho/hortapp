@@ -16,9 +16,11 @@ export default function Login({ navigation }) {
 
     const handleLogin = () => {
         console.log("wa")
+        console.log(URL)
         axios.post(`http://${URL}/realizarLogin`, { email, senha })
             .then((response) => {
                 if (response.status === 200) {
+                    console.log('logou')
                     const { nome } = response.data;
                     const dadosUsuario = { nome, email };
                     setUser(dadosUsuario);

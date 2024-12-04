@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import ItemPesquisa from '../../components/ItemPesquisa';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     containerLupa: { backgroundColor: '#939793', width: '40%', height: '100%', paddingTop: 12, paddingLeft: 20 },
     barraPesquisa: { display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', elevation: 3, borderRadius: 20, height: 45, paddingLeft: 20, width: '100%', overflow: 'hidden', paddingRight: 55 },
     textoQualSeraSuaNovaPlantacao: {fontSize: 14, marginLeft: 5, fontFamily: 'FibraOneMedium', width: '100%',  marginRight: 10,},
-    ScrollView: { flex: 1 },
+    ScrollView: { flex: 1, marginTop: 10 },
     contentContainer: { flexDirection: 'row', flexWrap: 'wrap' },
     gridContainer: { marginTop: 20, flexDirection: 'row', flexWrap: 'wrap' },
     gridItem: { width: '100%', marginBottom: 8, elevation: 2},

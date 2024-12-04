@@ -78,15 +78,17 @@ export default function Profile({ navigation }) {
                         <Text style={styles.sectionTitle}>
                             Amigos ({amigos.length})
                         </Text>
-                        <FlatList
-                            data={amigos}
-                            keyExtractor={(item) => item.id}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity onPress={() => visualizarPerfilAmigo(item)} style={styles.amigoContainer}>
-                                    <Text style={styles.amigoNome}>{item.nome}</Text>
-                                </TouchableOpacity>
-                            )}
-                        />
+                        <ScrollView>
+                            <FlatList
+                                data={amigos}
+                                keyExtractor={(item) => item.id}
+                                renderItem={({ item }) => (
+                                    <TouchableOpacity onPress={() => visualizarPerfilAmigo(item)} style={styles.amigoContainer}>
+                                        <Text style={styles.amigoNome}>{item.nome}</Text>
+                                    </TouchableOpacity>
+                                )}
+                            />
+                        </ScrollView>
                     </View>
 
                     <View style={styles.friendsContainer}>

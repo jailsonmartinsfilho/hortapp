@@ -5,7 +5,17 @@ const imagensPlantas = {
   couve: require('@/assets/images/couve.png'),
   'couve-flor': require('@/assets/images/couveflor.png'),
   tomate: require('@/assets/images/tomate.png'),
+  morango: require('@/assets/images/morango.png'),
+  milho: require('@/assets/images/milho.png'),
+  'hortelã': require('@/assets/images/hortela.png'),
+  cebolinha: require('@/assets/images/cebolinha.png'),
+  salsa: require('@/assets/images/salsa.png'),
+  'manjericão': require('@/assets/images/manjericao.png'),
+  'pimenta vermelha': require('@/assets/images/pimentavermelha.png'),
+  alface: require('@/assets/images/alface.png'),
+  coentro: require('@/assets/images/coentro.png'),
 };
+
 
 export default function ItemPesquisa({ nome }) {
   return (

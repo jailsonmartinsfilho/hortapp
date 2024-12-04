@@ -2,23 +2,27 @@ import { URL } from '@env';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ItemJardim from '../../components/ItemJardim';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import { useUser } from '../../context/UserContext';
 
 export default function Garden() {
     const navigation = useNavigation();
     const [plantasFiltradas, setPlantasFiltradas] = useState([]);
+    const { user } = useUser();
+    const email = user.email;
+
+    console.log('imprimindo email')
+    console.log(email)
 
     useFocusEffect(
         React.useCallback(() => {
-            console.log('buscou')
-            axios.post(`http://${URL}/buscarTodosCultivos`)
+            axios.post(`http://${URL}/buscarTodosCultivos`, { email_usuario: email })
                 .then((response) => {
                     setPlantasFiltradas(response.data);
                 });
-        }, [])
+        }, [email])
     );
 
     const handleSelectPlanta = (planta) => {
@@ -40,7 +44,7 @@ export default function Garden() {
                 <View style={styles.gridContainer}>
                     {plantasFiltradas.map((planta, index) => (
                         <TouchableOpacity key={index} onPress={() => handleSelectPlanta(planta)} style={styles.gridItem}>
-                            <ItemJardim nome={planta.nome_planta} />
+                            <ItemJardim nome={planta.nome_planta} nome_cientifico={planta.nome_cientifico} />
                         </TouchableOpacity>
                     ))}
                 </View>
@@ -56,7 +60,7 @@ const styles = StyleSheet.create({
     searchBar: { backgroundColor: '#ECECEC', borderRadius: 200, height: 50, paddingHorizontal: 10, width: 240 },
     ScrollView: { flex: 1 },
     contentContainer: { flexDirection: 'row', flexWrap: 'wrap' },
-    gridContainer: { marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center'},
-    gridItem: {width: '100%', marginBottom: 20, justifyContent: 'center', alignItems: 'center', zIndex: 1, borderRadius: 20},
-    textoSuasPlantacoesAtivas: { fontSize: 26, color: '#0f4d2e', marginBottom: 15, marginTop: 20, fontFamily: 'FibraOneBold'},
+    gridContainer: { marginTop: 20, flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' },
+    gridItem: { width: '100%', marginBottom: 20, justifyContent: 'center', alignItems: 'center', zIndex: 1, borderRadius: 20 },
+    textoSuasPlantacoesAtivas: { fontSize: 26, color: '#0f4d2e', marginBottom: 15, marginTop: 20, fontFamily: 'FibraOneBold' },
 });
